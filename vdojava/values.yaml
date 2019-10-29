@@ -49,3 +49,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+environmentVars:
+  configStoreBaseUrl: https://config-store.pc.rackspace.com
+  configStoreDictionaryName:
+  identityUsername: rvi-utility
+  identityPassword:
+  identityBaseUrl: https://identity-internal.api.rackspacecloud.com

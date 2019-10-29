@@ -30,6 +30,17 @@ spec:
             - name: vdojavaport
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            - name: CONFIG_STORE_BASE_URL
+              value: {{ .Values.environmentVars.configStoreBaseUrl }}
+            - name: CONFIG_STORE_DICTIONARY_NAME
+              value: {{ .Values.environmentVars.configStoreDictionaryName }}
+            - name: IDENTITY_USERNAME
+              value: {{ .Values.environmentVars.identityUsername }}
+            - name: IDENTITY_PASSWORD
+              value: "{{ .Values.environmentVars.identityPassword }}"
+            - name: IDENTITY_BASE_URL
+              value: {{ .Values.environmentVars.identityBaseUrl }}
           livenessProbe:
             tcpSocket:
               port: vdojavaport
