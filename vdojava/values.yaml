@@ -7,7 +7,7 @@ replicaCount: 2
 image:
   repository: circleci/openjdk
   tag: "8-jdk"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 nameOverride: ""
 fullnameOverride: ""
