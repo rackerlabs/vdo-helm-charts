@@ -52,7 +52,8 @@ affinity: {}
 
 environmentVars:
   configStoreBaseUrl: https://config-store.pc.rackspace.com
-  configStoreDictionaryName:
+  configStoreDictionaryName: dict-name
+  configStoreUri: config-store+s://username:password@host/dict
   identityUsername: rvi-utility
-  identityPassword:
+  identityPassword: secret
   identityBaseUrl: https://identity-internal.api.rackspacecloud.com

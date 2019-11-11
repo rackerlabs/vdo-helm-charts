@@ -31,6 +31,7 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           env:
+{{- if .Values.environmentVars.configStoreBaseUrl }}
             - name: CONFIG_STORE_BASE_URL
               value: {{ .Values.environmentVars.configStoreBaseUrl }}
             - name: CONFIG_STORE_DICTIONARY_NAME
@@ -41,6 +42,11 @@ spec:
               value: "{{ .Values.environmentVars.identityPassword }}"
             - name: IDENTITY_BASE_URL
               value: {{ .Values.environmentVars.identityBaseUrl }}
+{{- end }}
+{{- if .Values.environmentVars.configStoreUri }}
+            - name: CONFIG_STORE_URI
+              value: {{ .Values.environmentVars.configStoreUri }}
+{{- end }}
           livenessProbe:
             tcpSocket:
               port: vdojavaport
