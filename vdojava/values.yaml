@@ -18,16 +18,14 @@ service:
 
 ingress:
   enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - chart-example.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:665846930766:certificate/5ba3b6aa-ac29-4376-a9b1-31d6e6b0d8bc
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+
+vdojava:
+  domain: deveks.vdo.rackspace-cloud.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -51,9 +49,9 @@ tolerations: []
 affinity: {}
 
 environmentVars:
-  configStoreBaseUrl: https://config-store.pc.rackspace.com
+  configStoreBaseUrl:
   configStoreDictionaryName: dict-name
-  configStoreUri: config-store+s://username:password@host/dict
+  configStoreUri:
   identityUsername: rvi-utility
-  identityPassword: secret
+  identityPassword:
   identityBaseUrl: https://identity-internal.api.rackspacecloud.com

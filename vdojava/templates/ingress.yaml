@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "vdojava.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "vdojava.name" . }}
+    helm.sh/chart: {{ include "vdojava.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.ingress.labels }}
+{{ toYaml .Values.ingress.labels | indent 4 }}
+{{- end }}
+{{- if .Values.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: {{ include "vdojava.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+  tls:
+    - hosts:
+      - {{ .Release.Name }}.{{ .Values.vdojava.domain }}
+{{- end }}

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vdojava.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "vdojava.name" . }}
+    helm.sh/chart: {{ include "vdojava.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- if eq .Values.service.type "LoadBalancer" }}
+  loadBalancerIP: {{ default "" .Values.service.loadBalancerIP }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.service.port }}
+  selector:
+    app.kubernetes.io/name: {{ include "vdojava.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
