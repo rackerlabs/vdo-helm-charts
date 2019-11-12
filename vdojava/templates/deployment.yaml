@@ -50,11 +50,11 @@ spec:
           livenessProbe:
             tcpSocket:
               port: vdojavaport
-            initialDelaySeconds: 300
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           readinessProbe:
             tcpSocket:
               port: vdojavaport
-            initialDelaySeconds: 300
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
