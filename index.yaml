@@ -3,7 +3,16 @@ entries:
   vdojava:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T00:13:27.805031512Z"
+    created: "2019-11-12T00:23:04.135066199Z"
+    description: vdojava Helm chart
+    digest: 281e75db2279cae31f7421d0f1c3fb2150f2619fd6d237d420e3e06fee1ca9b5
+    name: vdojava
+    urls:
+    - https://rackerlabs.github.io/vdo-helm-charts/vdojava-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-12T00:23:04.134641445Z"
     description: vdojava Helm chart
     digest: b03cb5ae5107cf6a5df39998cf6dd447cfd27017a0b76565612f385e5c2a52c8
     name: vdojava
@@ -12,7 +21,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T00:13:27.80439522Z"
+    created: "2019-11-12T00:23:04.13410318Z"
     description: vdojava Helm chart
     digest: 1d230986c905a21fbe47588963cfb6f58e7aa53418c6ab69322e41cd324ef059
     name: vdojava
@@ -21,7 +30,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T00:13:27.803908946Z"
+    created: "2019-11-12T00:23:04.133810846Z"
     description: vdojava Helm chart
     digest: 9c0c50bf65f5815ee55d2906927bf5375569377f7dd8a365bf3754b6d1248a8a
     name: vdojava
@@ -30,7 +39,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T00:13:27.803630126Z"
+    created: "2019-11-12T00:23:04.133557298Z"
     description: vdojava Helm chart
     digest: 439bd806ab4bb20a7f808d9d8950c68c962e73e0017ace336469f9503a624978
     name: vdojava
@@ -39,11 +48,11 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T00:13:27.803362165Z"
+    created: "2019-11-12T00:23:04.133299147Z"
     description: vdojava Helm chart
     digest: 58d7c00e0ebfb25df36af6a06ab7aeb9d9a345c75a6f6ec82fc6dd2d93b34f72
     name: vdojava
     urls:
     - https://rackerlabs.github.io/vdo-helm-charts/vdojava-0.1.0.tgz
     version: 0.1.0
-generated: "2019-11-12T00:13:27.802916604Z"
+generated: "2019-11-12T00:23:04.13283929Z"
