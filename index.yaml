@@ -3,7 +3,25 @@ entries:
   vdojava:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.442225499Z"
+    created: "2019-11-12T16:08:55.893594478Z"
+    description: vdojava Helm chart
+    digest: 9ad3a5c210ba97aad8da358a2c9e65466ca3184c9e7ae2e257e3a07a8a723036
+    name: vdojava
+    urls:
+    - https://rackerlabs.github.io/vdo-helm-charts/vdojava-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-12T16:08:55.894010553Z"
+    description: vdojava Helm chart
+    digest: 9ad3a5c210ba97aad8da358a2c9e65466ca3184c9e7ae2e257e3a07a8a723036
+    name: vdojava
+    urls:
+    - https://rackerlabs.github.io/vdo-helm-charts/vdojava-latest.tgz
+    version: 0.1.8
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-12T16:08:55.893149008Z"
     description: vdojava Helm chart
     digest: 662824cb99ffd1b142815b433502684bca7c1d3fb9a1e367e98e52cd44f8ef0f
     name: vdojava
@@ -12,16 +30,7 @@ entries:
     version: 0.1.7
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.442635271Z"
-    description: vdojava Helm chart
-    digest: 662824cb99ffd1b142815b433502684bca7c1d3fb9a1e367e98e52cd44f8ef0f
-    name: vdojava
-    urls:
-    - https://rackerlabs.github.io/vdo-helm-charts/vdojava-latest.tgz
-    version: 0.1.7
-  - apiVersion: v1
-    appVersion: "1.0"
-    created: "2019-11-12T04:27:54.441866631Z"
+    created: "2019-11-12T16:08:55.892726965Z"
     description: vdojava Helm chart
     digest: 4853cc9f06d268c816b7b908728b477656e5d7d2fbf4afe0ce0a25e6b28f608f
     name: vdojava
@@ -30,7 +39,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.441447824Z"
+    created: "2019-11-12T16:08:55.892160991Z"
     description: vdojava Helm chart
     digest: 3b4464b3d1290c3981ac94a869aa0672ed39e56605752b21fd28cb4a85d60a39
     name: vdojava
@@ -39,7 +48,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.440987492Z"
+    created: "2019-11-12T16:08:55.891873737Z"
     description: vdojava Helm chart
     digest: b03cb5ae5107cf6a5df39998cf6dd447cfd27017a0b76565612f385e5c2a52c8
     name: vdojava
@@ -48,7 +57,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.440652087Z"
+    created: "2019-11-12T16:08:55.891609081Z"
     description: vdojava Helm chart
     digest: 1d230986c905a21fbe47588963cfb6f58e7aa53418c6ab69322e41cd324ef059
     name: vdojava
@@ -57,7 +66,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.439991849Z"
+    created: "2019-11-12T16:08:55.891307425Z"
     description: vdojava Helm chart
     digest: 9c0c50bf65f5815ee55d2906927bf5375569377f7dd8a365bf3754b6d1248a8a
     name: vdojava
@@ -66,7 +75,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.439618296Z"
+    created: "2019-11-12T16:08:55.891028326Z"
     description: vdojava Helm chart
     digest: 439bd806ab4bb20a7f808d9d8950c68c962e73e0017ace336469f9503a624978
     name: vdojava
@@ -75,11 +84,11 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2019-11-12T04:27:54.439359742Z"
+    created: "2019-11-12T16:08:55.890757124Z"
     description: vdojava Helm chart
     digest: 58d7c00e0ebfb25df36af6a06ab7aeb9d9a345c75a6f6ec82fc6dd2d93b34f72
     name: vdojava
     urls:
     - https://rackerlabs.github.io/vdo-helm-charts/vdojava-0.1.0.tgz
     version: 0.1.0
-generated: "2019-11-12T04:27:54.438942268Z"
+generated: "2019-11-12T16:08:55.890297054Z"
