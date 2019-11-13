@@ -25,7 +25,7 @@ ingress:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
     #alb.ingress.kubernetes.io/inbound-cidrs: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
     # stickiness is required when using websockets
-    #alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true
     alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
 
 vdojava:
