@@ -24,6 +24,7 @@ ingress:
     alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:665846930766:certificate/5ba3b6aa-ac29-4376-a9b1-31d6e6b0d8bc
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
     #alb.ingress.kubernetes.io/inbound-cidrs: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true
 
 vdojava:
   domain: deveks.vdo.rackspace-cloud.com
