@@ -1,40 +1,27 @@
 #!/bin/bash
 
 # Get current vdojava helm chart version
-export version=$(grep version vdojava/Chart.yaml | awk '{print $2}')
+export VDOJAVA_VERSION=$(helm inspect chart vdojava | grep version | awk '{print $2}')
+export CHART_ARCHIVE="vdojava-${VDOJAVA_VERSION}.tgz"
+export HELM_REPO_URL="https://rackerlabs.github.io/vdo-helm-charts"
 
-# increment patch value in semver string
-patch=true
+curl --output /dev/null --silent --head --fail $HELM_REPO_URL/vdojava-$VDOJAVA_VERSION.tgz
 
-# Build array from version string.
-a=( ${version//./ } )
-
-# Increment version numbers as requested.
-if [ ! -z $major ]
-then
-  ((a[0]++))
-  a[1]=0
-  a[2]=0
+if [ $? -eq 0 ]; then
+  echo "${CHART_ARCHIVE} already exists, skipping helm package and publish..."
+  echo "Did you forget to increment the version field in Chart.yaml?"
+  exit 0
 fi
-
-if [ ! -z $minor ]
-then
-  ((a[1]++))
-  a[2]=0
-fi
-
-if [ ! -z $patch ]
-then
-  ((a[2]++))
-fi
-
-# Set new version
-export VDOJAVA_VERSION="${a[0]}.${a[1]}.${a[2]}"
-
-# Change version in vdojava/Chart.yaml
-sed -i "s/version: ${version}/version: ${VDOJAVA_VERSION}/g" vdojava/Chart.yaml
 
 # Generate new helm package
+git checkout -b gh-pages remotes/origin/gh-pages
+git pull origin master --rebase
 helm package vdojava
-rm -f vdojava-latest.tgz; cp -p vdojava-$VDOJAVA_VERSION.tgz vdojava-latest.tgz
-helm repo index . --url https://rackerlabs.github.io/vdo-helm-charts
+rm -f vdojava-latest.tgz
+cp -p vdojava-$VDOJAVA_VERSION.tgz vdojava-latest.tgz
+helm repo index . --url $HELM_REPO_URL
+git add index.yaml
+git add *.tgz
+git add */Chart.yaml
+git commit -am "Uprev helm charts done by ${LOGNAME}"
+git push origin gh-pages

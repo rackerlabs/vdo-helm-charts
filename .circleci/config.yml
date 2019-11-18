@@ -1,0 +1,105 @@
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
+  aws-eks: circleci/aws-eks@0.2.5
+  helm: rackerlabs/vdo-helm@dev:first
+  kubernetes: circleci/kubernetes@0.10.1
+
+jobs:
+  lint:
+    docker:
+      - image: circleci/python:latest
+    working_directory: ~/vdo-helm-charts
+    steps:
+      - checkout
+      - helm/lint-helm-chart:
+          chart: ~/vdo-helm-charts/vdojava
+
+  publish:
+    docker:
+      - image: circleci/python:latest
+    working_directory: ~/vdo-helm-charts
+    steps:
+      - checkout
+      - helm/install-helm-client
+      - run: |
+          cd ~/vdo-helm-charts
+          git config --global user.email "virt_dev_ops@rackspace.com"
+          git config --global user.name "VDO - VirtDevOps CircleCI"
+          ./update-repo.sh
+
+  test:
+    docker:
+      - image: circleci/python:latest
+    working_directory: ~/vdo-helm-charts
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/.aws
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: vdo-dev-eks
+          aws-region: ${AWS_REGION}
+          aws-profile: vdo-gradle-s3
+          cluster-authentication-role-arn: arn:aws:iam::665846930766:role/Admin
+      - kubernetes/install-kubectl:
+          kubectl-version: latest
+      - run: kubectl create namespace vdojava-ci
+      - helm/upgrade-helm-chart:
+          namespace: vdojava-ci
+          chart: ~/vdo-helm-charts/vdojava
+          release-name: vdojava-ci-test
+          timeout: "300"
+          values-to-override: image.repository=bitnami/nginx,image.tag=1.16.1-debian-9-r81,livenessProbe.initialDelaySeconds=15,readinessProbe.initialDelaySeconds=30
+      - helm/delete-helm-release:
+          release-name: vdojava-ci-test
+          purge: true
+          timeout: 300
+      - run: kubectl delete namespace vdojava-ci
+
+  initialize-workspace:
+    docker:
+      - image: circleci/python:latest
+    steps:
+      - aws-cli/install
+      - aws-cli/configure:
+          profile-name: vdo-gradle-s3
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_REGION
+      - persist_to_workspace:
+          root: ~/.aws
+          paths:
+            - "*"
+workflows:
+  release:
+    jobs:
+      - initialize-workspace:
+          context: vdo
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+      - lint:
+          requires:
+            - initialize-workspace
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+      - test:
+          requires:
+            - initialize-workspace
+          context: vdo
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+      - publish:
+          requires:
+            - test
+            - lint
+          filters:
+            branches:
+              only:
+                - master
