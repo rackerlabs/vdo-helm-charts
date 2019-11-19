@@ -24,4 +24,4 @@ git add index.yaml
 git add *.tgz
 git add */Chart.yaml
 git commit -am "Uprev helm charts"
-git push origin gh-pages
+git push origin +gh-pages
