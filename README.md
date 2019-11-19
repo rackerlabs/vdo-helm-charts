@@ -7,4 +7,5 @@ helm install ./vdojava --name testing --set image.repository=665846930766.dkr.ec
 ```
 
 ## Update repo
+Simply update the version field in Chart.yaml and submit a pull request.
 CircleCI now handles repo updates automagically.
