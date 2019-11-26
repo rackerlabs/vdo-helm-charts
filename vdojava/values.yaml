@@ -15,21 +15,39 @@ fullnameOverride: ""
 service:
   type: NodePort
   port: 8080
+  labels: {}
+  annotations: {}
+  traefik:
+    annotations:
+      # stickiness is required when using websockets
+      traefik.ingress.kubernetes.io/affinity: true
 
 ingress:
   enabled: false
-  annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internal
-    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:665846930766:certificate/5ba3b6aa-ac29-4376-a9b1-31d6e6b0d8bc
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/inbound-cidrs: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-    # stickiness is required when using websockets
-    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true
-    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+  labels: {}
+  annotations: {}
+  awsAlbIngressController:
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internal
+      alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:665846930766:certificate/5ba3b6aa-ac29-4376-a9b1-31d6e6b0d8bc
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/inbound-cidrs: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+      # stickiness is required when using websockets
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true
+      alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+
+  traefik:
+    annotations:
+      kubernetes.io/ingress.class: traefik
+
+# Set to choose which ingress controller and default annotations to use
+ingressController:
+  awsAlbIngressController: false
+  traefik: true
 
 vdojava:
-  domain: deveks.vdo.rackspace-cloud.com
+  domain: devkops.vdo.rackspace-cloud.com
 
 livenessProbe:
   initialDelaySeconds: 300

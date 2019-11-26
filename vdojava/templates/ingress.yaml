@@ -8,15 +8,30 @@ metadata:
     helm.sh/chart: {{ include "vdojava.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- if .Values.ingress.labels }}
-{{ toYaml .Values.ingress.labels | indent 4 }}
-{{- end }}
-{{- if .Values.ingress.annotations }}
+  {{- if .Values.ingress.labels }}
+  {{- range $key, $value := .Values.ingress.labels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
   annotations:
-{{ toYaml .Values.ingress.annotations | indent 4 }}
-{{- end }}
+  {{- if .Values.ingress.annotations }}
+  {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.ingressController.awsAlbIngressController }}
+  {{- range $key, $value := .Values.ingress.awsAlbIngressController.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.ingressController.traefik }}
+  {{- range $key, $value := .Values.ingress.traefik.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
 spec:
   rules:
+  {{- if .Values.ingressController.awsAlbIngressController }}
     - http:
         paths:
           - path: /*
@@ -26,4 +41,14 @@ spec:
   tls:
     - hosts:
       - {{ .Release.Name }}.{{ .Values.vdojava.domain }}
+  {{- end }}
+  {{- if .Values.ingressController.traefik }}
+  - host: {{ .Release.Name }}.{{ .Values.vdojava.domain }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "vdojava.fullname" . }}
+          servicePort: {{ .Values.service.port }}
+  {{- end }}
 {{- end }}
