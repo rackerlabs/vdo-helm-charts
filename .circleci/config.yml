@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@0.1.13
-  helm: rackerlabs/vdo-helm@dev:first
+  helm: circleci/helm@0.2.3
   kubernetes: circleci/kubernetes@0.10.1
 
 jobs:
@@ -12,8 +12,11 @@ jobs:
     working_directory: ~/vdo-helm-charts
     steps:
       - checkout
-      - helm/lint-helm-chart:
-          chart: ~/vdo-helm-charts/vdojava
+      - helm/install-helm-client:
+          version: v3.1.2
+      - run: |
+          cd ~/vdo-helm-charts
+          helm lint vdojava
 
   publish:
     docker:
@@ -21,7 +24,8 @@ jobs:
     working_directory: ~/vdo-helm-charts
     steps:
       - checkout
-      - helm/install-helm-client
+      - helm/install-helm-client:
+          version: v3.1.2
       - run: |
           cd ~/vdo-helm-charts
           git config --global user.email "virt_dev_ops@rackspace.com"
@@ -38,22 +42,23 @@ jobs:
           at: ~/.aws
       - kubernetes/install-kops
       - kubernetes/install-kubectl
-      - helm/install-helm-client
-      - run: kops export kubecfg --name vdo-dev-kops.k8s.local --state "s3://vdo-dev-kops-state"
-      - run: "helm delete --purge vdojava-ci-test || :"
+      - helm/install-helm-client:
+          version: v3.1.2
+      - run: |
+          helm repo add stable https://kubernetes-charts.storage.googleapis.com
+      - run: kops export kubecfg --name vdo-dev-kops.k8s.local --state "s3://vdo-kops-state-dev"
+      - run: "helm delete vdojava-ci-test -n vdojava-ci || :"
       - run: "kubectl delete namespace vdojava-ci || :"
       - run: kubectl create namespace vdojava-ci
       - helm/upgrade-helm-chart:
           namespace: vdojava-ci
           chart: ~/vdo-helm-charts/vdojava
           release-name: vdojava-ci-test
-          timeout: "300"
+          timeout: 5m
           values-to-override: image.repository=bitnami/nginx,image.tag=1.16.1-debian-9-r81,livenessProbe.initialDelaySeconds=15,readinessProbe.initialDelaySeconds=30
-      - helm/delete-helm-release:
-          release-name: vdojava-ci-test
-          purge: true
-          timeout: 300
-      - run: kubectl delete namespace vdojava-ci
+          version: v3.1.2
+      - run: "helm delete vdojava-ci-test -n vdojava-ci"
+      - run: "kubectl delete namespace vdojava-ci"
 
   initialize-workspace:
     docker:
@@ -61,9 +66,9 @@ jobs:
     steps:
       - aws-cli/install
       - aws-cli/configure:
-          profile-name: vdo-gradle-s3
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          profile-name: default
+          aws-access-key-id: AWS_ACCESS_KEY_ID_DEV
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY_DEV
           aws-region: AWS_REGION
       - persist_to_workspace:
           root: ~/.aws
